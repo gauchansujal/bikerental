@@ -1,11 +1,10 @@
-export type LoginForm = { 
-    email : string;
-    password: string;
+import RegisterForm from '../components/RegisterForm'
 
-}
-
-export type RegisterData = {
-    name: string;
-    email: string;
-    password: string;
+export default function RegisterPage() {
+  return (
+    <div className="max-w-md mx-auto mt-20">
+      <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
+      <RegisterForm />
+    </div>
+  )
 }
