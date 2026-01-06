@@ -14,14 +14,14 @@ export default function Home() {
 
         <div className="mt-6 flex gap-6 justify-center">
           <Link
-            href="/login"
+            href="/auth/login"
             className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Login
           </Link>
 
           <Link
-            href="/register"
+            href="/auth/register"
             className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
             Register

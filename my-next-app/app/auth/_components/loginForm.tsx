@@ -1,42 +1,86 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+
+import { LoginData, loginSchema } from "../schema";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log({ email, password });
-  };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginData>({
+        resolver: zodResolver(loginSchema),
+        mode: "onSubmit",
+    });
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="w-full border p-2 rounded"
-        required
-      />
+    const onSubmit = (values: LoginData) => {
+        console.log("login", values);
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="w-full border p-2 rounded"
-        required
-      />
+        startTransition(async () => {
+            // Replace this with real login API call
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            router.push("/"); // or "/dashboard"
+        });
+    };
 
-      <button
-        type="submit"
-        className="w-full bg-black text-white p-2 rounded"
-      >
-        Login
-      </button>
-    </form>
-  );
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-1">
+                <label className="text-sm font-medium" htmlFor="email">
+                    Email
+                </label>
+                <input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    className="h-10 w-full rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm outline-none focus:border-foreground/40"
+                    {...register("email")}
+                    placeholder="you@example.com"
+                />
+                {errors.email?.message && (
+                    <p className="text-xs text-red-600">{errors.email.message}</p>
+                )}
+            </div>
+
+            <div className="space-y-1">
+                <label className="text-sm font-medium" htmlFor="password">
+                    Password
+                </label>
+                <input
+                    id="password"
+                    type="password"
+                    autoComplete="current-password"
+                    className="h-10 w-full rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm outline-none focus:border-foreground/40"
+                    {...register("password")}
+                    placeholder="••••••"
+                />
+                {errors.password?.message && (
+                    <p className="text-xs text-red-600">{errors.password.message}</p>
+                )}
+            </div>
+
+            <button
+                type="submit"
+                disabled={isSubmitting || isPending}
+                className="h-10 w-full rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90 disabled:opacity-60"
+            >
+                {isPending ? "Logging in..." : "Log in"}
+            </button>
+
+            <div className="mt-1 text-center text-sm">
+                Don't have an account?{" "}
+                <Link href="/auth/register" className="font-semibold hover:underline">
+                    Sign up
+                </Link>
+            </div>
+        </form>
+    );
 }
