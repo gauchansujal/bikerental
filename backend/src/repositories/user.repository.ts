@@ -1,6 +1,6 @@
-import { UserModel, IUser } from "../models/user.model";
+import { UserModel, Iuser } from "../models/user.model";
 
-type CreateUserDTO = Pick<IUser, "email" | "password" | "role">;
+type CreateUserDTO = Pick<Iuser, "email" | "password" | "role">;
 
 export class UserRepository {
   async createUser(data: CreateUserDTO) {

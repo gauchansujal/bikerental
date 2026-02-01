@@ -1,12 +1,51 @@
-import { z } from "zod";
+import z from "zod";
 
-export const RegisterUserDto = z.object({
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password must be 6 chars"),
-  role: z.enum(["user", "admin"]).optional(),
-});
+import { UserSchema } from "../types/user.type";
 
-export const LoginUserDto = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+// re-use UseSchma from types
+export const CreateUserDTO = UserSchema.pick(
+  {
+    firstname: true,
+    lastname:true,
+    email:true,
+    username: true,
+    password: true,
+    imageUrl: true,
+
+    
+  }
+).extend(
+  // add new attributes to zod
+  {
+    confirmPassword: z.string().min(6)
+  }
+  ).refine(
+    // extra validation for confirm password
+    (data) =>data.password ===data.confirmPassword,
+    {
+      message : "password do not match",
+      path: ["confirmPassword"]
+    }
+  )
+  export type CreateUserDTO = z.infer<typeof CreateUserDTO>;
+
+  export const LoginUserDto = z.object({
+    email:z.email(),
+    password: z.string().min(6)
+  });
+
+  export type LoginUserDto = z.infer<typeof LoginUserDto>;
+
+  export const UpdateUserDto = UserSchema.partial();//.partial() means:
+// "Make every field optional"
+// So if original UserSchema has 10 fields, UpdateUserDto allows sending any subset of them:
+// JSON// Valid examples:
+// { "firstname": "NewName" }
+// { "imageUrl": "https://..." }
+// { "firstname": "Gauchan", "lastname": "Rai" }
+  export type UpdateUserDto = z.infer<typeof UpdateUserDto>;
+// Big central UserSchema
+//     │
+//     ├───── .pick() ──→ CreateUserDTO (registration shape + confirmPassword)
+//     ├───── .object() ─→ LoginUserDto  (only login fields)
+//     └───── .partial() → UpdateUserDto (any combination of fields)

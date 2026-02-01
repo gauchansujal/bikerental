@@ -1,17 +1,16 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-
 import { LoginData, loginSchema } from "../schema";
+import { handleLogin } from "@/lib/actions/auth-action";
 
 export default function LoginForm() {
     const router = useRouter();
-    const [isPending, startTransition] = useTransition();
-
     const {
         register,
         handleSubmit,
@@ -20,23 +19,37 @@ export default function LoginForm() {
         resolver: zodResolver(loginSchema),
         mode: "onSubmit",
     });
+    const [pending, setTransition] = useTransition()
+    const [error, setError] = useState<string | null>(null);
 
-    const onSubmit = (values: LoginData) => {
-        console.log("login", values);
+    const submit = async (values: LoginData) => {
+        setError(null);
 
-        startTransition(async () => {
-            // Replace this with real login API call
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            router.push("/"); // or "/dashboard"
-        });
+        // GOTO
+        setTransition(async () => {
+            try {
+                const response = await handleLogin(values);
+                if (!response.success) {
+                    throw new Error(response.message);
+                }
+                if (response.success) {
+                    router.push("/user/dashboard");
+                } else {
+                    setError('Login failed');
+                }
+            } catch (err: Error | any) {
+                setError(err.message || 'Login failed');
+            }
+        })
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(submit)} className="space-y-4">
+            {error && (
+                <p className="text-sm text-red-600">{error}</p>
+            )}
             <div className="space-y-1">
-                <label className="text-sm font-medium" htmlFor="email">
-                    Email
-                </label>
+                <label className="text-sm font-medium" htmlFor="email">Email</label>
                 <input
                     id="email"
                     type="email"
@@ -51,9 +64,7 @@ export default function LoginForm() {
             </div>
 
             <div className="space-y-1">
-                <label className="text-sm font-medium" htmlFor="password">
-                    Password
-                </label>
+                <label className="text-sm font-medium" htmlFor="password">Password</label>
                 <input
                     id="password"
                     type="password"
@@ -69,17 +80,14 @@ export default function LoginForm() {
 
             <button
                 type="submit"
-                disabled={isSubmitting || isPending}
+                disabled={isSubmitting || pending}
                 className="h-10 w-full rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90 disabled:opacity-60"
             >
-                {isPending ? "Logging in..." : "Log in"}
+                {isSubmitting || pending ? "Logging in..." : "Log in"}
             </button>
 
             <div className="mt-1 text-center text-sm">
-                Don't have an account?{" "}
-                <Link href="/auth/register" className="font-semibold hover:underline">
-                    Sign up
-                </Link>
+                Don't have an account? <Link href="/auth/register" className="font-semibold hover:underline">Sign up</Link>
             </div>
         </form>
     );
