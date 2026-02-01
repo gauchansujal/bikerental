@@ -1,16 +1,11 @@
-import { z } from "zod";
-
-export const RegisterUserDto = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["user", "admin"]).optional(),
+import z from "zod";
+export const UserSchema = z.object({
+  username: z.string().min(1),
+  email:z.email(),
+  password: z.string().min(6),
+  firstname:z.string().optional(),
+  lastname: z.string().optional(),
+  role:z.enum(["user", "admin"]).default("user"),
+  imageUrl:z.string().optional(),
 });
-
-export type RegisterUserInput = z.infer<typeof RegisterUserDto>;
-
-export const LoginUserDto = z.object({
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-export type LoginUserInput = z.infer<typeof LoginUserDto>;
+export type UserType = z.infer<typeof UserSchema>;
