@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserRepository } from "../repositories/user.repository";
 
-export class AuthService {
+export class UserService {
   private userRepo = new UserRepository();
 
   async register(email: string, password: string, role:"user" | "admin"="user") {
