@@ -3,7 +3,14 @@ import z from "zod";
 import { UserSchema } from "../types/user.type";
 
 // re-use UseSchma from types
-export const CreateUserDTO = UserSchema.pick(
+export const CreateUserDTO = UserSchema.pick( // pick means pick ths followin schemas from the actual schema which is in mdoel 
+//   Why pick is useful
+
+// DTOs (Data Transfer Objects)
+
+// Security (don’t accept unwanted fields)
+
+// Clean API inputs
   {
     firstname: true,
     lastname:true,
@@ -11,6 +18,7 @@ export const CreateUserDTO = UserSchema.pick(
     username: true,
     password: true,
     imageUrl: true,
+    role: true,
 
     
   }
@@ -37,7 +45,7 @@ export const CreateUserDTO = UserSchema.pick(
   export type LoginUserDto = z.infer<typeof LoginUserDto>;
 
   export const UpdateUserDto = UserSchema.partial();//.partial() means:
-// "Make every field optional"
+//  partial = "Make every field optional" 
 // So if original UserSchema has 10 fields, UpdateUserDto allows sending any subset of them:
 // JSON// Valid examples:
 // { "firstname": "NewName" }

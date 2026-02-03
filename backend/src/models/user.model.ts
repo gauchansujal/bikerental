@@ -28,7 +28,7 @@ export interface Iuser extends UserType, Document{
   createdAt: Date;
   updateAt: Date;
 }
-export const UserModel = model<Iuser>("User", userSchema);
+export const UserModel = model<Iuser>("User", userSchema);// it creat mongodb model called user this model lets you talk to the database 
 
 // const userSchema = new Schema<IUser>( this thngs are inside user.tye.ts
 //   {
