@@ -32,11 +32,18 @@ export default function LoginForm() {
                 if (!response.success) {
                     throw new Error(response.message);
                 }
-                if (response.success) {
+                if(response.success){
+                    if(response.data?.role == 'admin'){
+                        return router.replace("/admin");
+                    }
+                    if (response.success) {
                     router.push("/user/dashboard");
                 } else {
                     setError('Login failed');
                 }
+
+                }
+                
             } catch (err: Error | any) {
                 setError(err.message || 'Login failed');
             }

@@ -11,7 +11,6 @@ interface UserData {
     updatedAt: string;
     [key: string]: any;
 }
-
 export const setAuthToken = async (token: string) => {
     const cookieStore = await cookies();
     cookieStore.set({
@@ -19,12 +18,10 @@ export const setAuthToken = async (token: string) => {
         value: token,
     })
 }
-
 export const getAuthToken = async () => {
     const cookieStore = await cookies();
     return cookieStore.get('auth_token')?.value || null;
 }
-
 export const setUserData = async (userData: UserData) => {
     const cookieStore = await cookies();
     cookieStore.set({
@@ -32,7 +29,6 @@ export const setUserData = async (userData: UserData) => {
         value: JSON.stringify(userData),
     })
 }
-
 export const getUserData = async (): Promise<UserData | null> => {
     const cookieStore = await cookies();
     const userData = cookieStore.get('user_data')?.value || null;
