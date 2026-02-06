@@ -1,5 +1,7 @@
 // components/ui/Header.tsx
+import ThemeToggle from "@/app/_components/ThemeToggle";
 import Link from 'next/link';
+import { handleLogout } from "@/lib/actions/auth-action";
 import { Bike } from 'lucide-react'; // or use your own SVG/icon
 
 export default function Header() {
@@ -45,13 +47,16 @@ export default function Header() {
           </nav>
 
           {/* Auth buttons */}
-          <div className="flex items-center gap-4">
-            <Link 
-              href="/login" 
-              className="text-black-700 dark:text-black-300 hover:text-black-900 dark:hover:text-white font-medium"
-            >
-              Log in
-            </Link>
+            {/* Right: Auth + Mobile Toggle */}
+                    <div className="flex items-center gap-2 md:justify-self-end">
+                        <div className="hidden sm:flex items-center gap-2">
+                            <button
+                                onClick={handleLogout}
+                                className="h-9 px-3 inline-flex items-center justify-center rounded-md border border-black/10 dark:border-white/15 text-sm font-medium hover:bg-foreground/5 transition-colors"
+                            >
+                                Logout
+                            </button>
+                        </div>
             
             <Link 
               href="/get-started" 
@@ -64,6 +69,7 @@ export default function Header() {
           {/* Mobile menu button (add later when you implement mobile nav) */}
           {/* <button className="md:hidden">☰</button> */}
         </div>
+        <ThemeToggle/>
       </div>
     </header>
   );

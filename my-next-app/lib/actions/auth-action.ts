@@ -46,7 +46,7 @@ export const handleLogin = async (data: LoginData) => {
 
 export const handleLogout = async () => {
     await clearAuthCookies();
-    return redirect('/login');
+    return redirect('/auth/login');
 
 }
 export async function handleWhoAmI() {

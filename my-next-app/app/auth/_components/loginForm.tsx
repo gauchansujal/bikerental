@@ -1,10 +1,9 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoginData, loginSchema } from "../schema";
 import { handleLogin } from "@/lib/actions/auth-action";
@@ -19,35 +18,30 @@ export default function LoginForm() {
         resolver: zodResolver(loginSchema),
         mode: "onSubmit",
     });
-    const [pending, setTransition] = useTransition()
+
     const [error, setError] = useState<string | null>(null);
 
     const submit = async (values: LoginData) => {
         setError(null);
 
-        // GOTO
-        setTransition(async () => {
-            try {
-                const response = await handleLogin(values);
-                if (!response.success) {
-                    throw new Error(response.message);
-                }
-                if(response.success){
-                    if(response.data?.role == 'admin'){
-                        return router.replace("/admin");
-                    }
-                    if (response.success) {
-                    router.push("/user/dashboard");
-                } else {
-                    setError('Login failed');
-                }
+        try {
+            const response = await handleLogin(values);
 
-                }
-                
-            } catch (err: Error | any) {
-                setError(err.message || 'Login failed');
+            if (!response.success) {
+                setError(response.message || "Login failed");
+                return;
             }
-        })
+
+            // ✅ role-based redirect
+            if (response.data?.role === "admin") {
+                router.replace("/admin");
+            } else {
+                router.replace("/user/dashboard");
+            }
+
+        } catch (err: any) {
+            setError(err.message || "Login failed");
+        }
     };
 
     return (
@@ -55,6 +49,7 @@ export default function LoginForm() {
             {error && (
                 <p className="text-sm text-red-600">{error}</p>
             )}
+
             <div className="space-y-1">
                 <label className="text-sm font-medium" htmlFor="email">Email</label>
                 <input
@@ -87,14 +82,17 @@ export default function LoginForm() {
 
             <button
                 type="submit"
-                disabled={isSubmitting || pending}
+                disabled={isSubmitting}
                 className="h-10 w-full rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90 disabled:opacity-60"
             >
-                {isSubmitting || pending ? "Logging in..." : "Log in"}
+                {isSubmitting ? "Logging in..." : "Log in"}
             </button>
 
             <div className="mt-1 text-center text-sm">
-                Don't have an account? <Link href="/auth/register" className="font-semibold hover:underline">Sign up</Link>
+                Don't have an account?{" "}
+                <Link href="/auth/register" className="font-semibold hover:underline">
+                    Sign up
+                </Link>
             </div>
         </form>
     );
