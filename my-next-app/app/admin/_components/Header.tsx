@@ -28,7 +28,7 @@ export default function Header() {
                             <button
                                 onClick={() => {
                                     logout();
-                                }}
+                                }} 
                                 className="w-full border flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-foreground/5 transition-colors text-left"
                             >
                                 Logout

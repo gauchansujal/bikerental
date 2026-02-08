@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen w-full">
+    <div className="fixed inset-0 w-full h-screen overfloden">
       {/* Full-screen background image */}
       <Image
         src="/image/dirtbike.gif"
