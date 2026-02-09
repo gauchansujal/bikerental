@@ -20,3 +20,22 @@ export const registerSchema = z.object({
 });
 
 export type RegisterData = z.infer<typeof registerSchema>;
+export const forgetPasswordSchema = z.object({
+    email:z.email({message: "enter a valid email"}),
+
+});
+
+export type ForgetPasswordData = z.infer<typeof forgetPasswordSchema>;
+
+
+export const  resestPasswordSchema = z.object({
+    newPassword: z.string().min(6,{message: "Minimum 6 characters"}),
+    confirmPassword: z.string().min(6, {message: "Minimum 6 characters"}),
+
+
+}).refine((v)=> v.newPassword === v.confirmPassword,{
+    path: ['confirmNewPassword'],
+    message: "password do not match",
+});
+
+export type ResestPasswordSchema = z.infer<typeof resestPasswordSchema>;

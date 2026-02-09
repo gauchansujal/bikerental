@@ -94,6 +94,10 @@ export default function LoginForm() {
                     Sign up
                 </Link>
             </div>
+                        <div className="mt-1 text-center text-sm">
+                <Link href="/auth/forget-password" className="font-semibold hover:underline">Forgot Password?</Link>
+            </div>
+
         </form>
     );
 }
