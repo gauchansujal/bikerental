@@ -19,8 +19,8 @@ export default function Header() {
   return (
     <header className="border-b bg-white sticky top-0 z-50 w-full">
       {/* Full-width background */}
-      <div className="w-full bg-white border-b">
-        {/* Content stays centered with max width */}
+      <div className="w-screen bg-[#e0f2fe] border-b">
+        {/* Inner content remains centered */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo */}
@@ -79,7 +79,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Theme toggle */}
+      {/* Theme toggle - positioned absolutely */}
       <div className="absolute top-4 right-4 md:top-5 md:right-8 z-50">
         <ThemeToggle />
       </div>

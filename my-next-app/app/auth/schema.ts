@@ -38,4 +38,4 @@ export const  resestPasswordSchema = z.object({
     message: "password do not match",
 });
 
-export type ResestPasswordSchema = z.infer<typeof resestPasswordSchema>;
+export type ResestPasswordData = z.infer<typeof resestPasswordSchema>;

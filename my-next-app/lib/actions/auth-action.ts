@@ -1,8 +1,9 @@
 "use server";
-import { login, register,whoAmI, updateProfile } from "@/lib/api/auth"
+import { login, register,whoAmI, updateProfile, resetPassword, requestPasswordReset } from "@/lib/api/auth"
 import { LoginData, RegisterData } from "@/app/auth/schema";
 import { setAuthToken, setUserData, clearAuthCookies } from "../cookies"
 import { redirect } from "next/navigation";
+
 import { revalidatePath } from 'next/cache';
 export const handleRegister = async (data: RegisterData) => {
     try {
@@ -83,7 +84,7 @@ export async function handleUpdateProfile(profileData: FormData) {
     }
 }
 
-export const handleReuestPasswordReset = async (email: string) => {
+export const handleRequestPasswordReset = async (email: string) => {
     try {
         const response = await requestPasswordReset(email);
         if (response.success) {

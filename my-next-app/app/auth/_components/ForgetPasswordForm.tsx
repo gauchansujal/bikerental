@@ -5,7 +5,7 @@ import {forgetPasswordSchema, ForgetPasswordData} from "../schema";
 import {zodResolver} from "@hookform/resolvers/zod";
 
 import Link from "next/link";
-import {handleReuestPasswordReset} from "@/lib/actions/auth-action";
+import {handleRequestPasswordReset} from "@/lib/actions/auth-action";
 import {useRouter} from "next/navigation";
 import {toast} from "react-toastify";
 
@@ -24,7 +24,7 @@ const ForgetPasswordForm=()=>{
         setError(null);
         setTransition(async()=>{
             try{
-                const result =await handleReuestPasswordReset(value.email);
+                const result =await handleRequestPasswordReset(value.email);
                 if(result.success){
                     toast.success("If the email registered, a reset link has been sent.");
                     return router.push("/auth/login");

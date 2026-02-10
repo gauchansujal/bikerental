@@ -1,110 +1,67 @@
 "use client";
 
-import { useState, useRef } from "react";
 import Image from "next/image";
 
 export default function HomeSection() {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const imageRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imageRef.current) return;
-    const rect = imageRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const tiltX = ((y / rect.height) - 0.5) * -12;
-    const tiltY = ((x / rect.width) - 0.5) * 12;
-
-    setTilt({ x: tiltX, y: tiltY });
-  };
-
-  const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
-
   return (
-    <section className="relative bg-white pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden">
-      {/* Only padding – no max-w-7xl here (handled by layout.tsx) */}
-      <div className="px-5 sm:px-6 lg:px-8 xl:px-10">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-start min-h-[70vh]">
-          {/* LEFT COLUMN – Text + search */}
-          <div className="space-y-8 lg:space-y-10 order-2 lg:order-1">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2.5 bg-pink-50 text-pink-700 px-5 py-2.5 rounded-full text-sm font-medium shadow-sm">
-              Feel the Thrill 🏍️
-            </div>
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+      <div className="max-w-6xl w-full grid md:grid-cols-2 gap-10 items-center">
+        
+        {/* LEFT CONTENT */}
+        <div>
+          <h1 className="text-4xl font-bold text-white mb-4">
+            Rent the <span className="text-yellow-400">Best Bikes</span>
+          </h1>
 
-            {/* Hero text */}
-            <p className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 leading-tight">
-              Choose from high-performance cruisers, sport bikes, and scooters.{" "}
-              <span className="text-gray-600 font-normal">
-                Affordable, well-maintained, and ready for the open road.
-              </span>
-            </p>
+          <p className="text-zinc-400 mb-6">
+            Find affordable bikes for your next adventure.
+          </p>
 
-            {/* Search bar */}
-            <div className="mt-10 bg-zinc-900 rounded-3xl p-1.5 shadow-2xl max-w-lg lg:max-w-xl">
-              <div className="bg-zinc-800 rounded-3xl px-5 py-6 space-y-5">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4">
-                    <span className="text-2xl text-pink-400">📍</span>
-                    <input
-                      type="text"
-                      placeholder="Pickup location"
-                      className="bg-transparent flex-1 text-white placeholder-zinc-400 focus:outline-none text-base"
-                    />
-                  </div>
-                  <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4">
-                    <span className="text-2xl text-pink-400">📅</span>
-                    <input
-                      type="date"
-                      className="bg-transparent flex-1 text-white focus:outline-none text-base"
-                    />
-                  </div>
-                </div>
-
-                <button className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold text-lg py-4 rounded-2xl flex items-center justify-center gap-3 transition-colors">
-                  <span className="text-2xl">🔍</span>
-                  Find Your Ride
-                </button>
+          {/* SEARCH BAR */}
+          <div className="bg-zinc-900 p-4 rounded-2xl space-y-3 w-fit">
+            <div className="grid sm:grid-cols-2 gap-3">
+              
+              {/* Location */}
+              <div className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2">
+                <span className="text-sm text-yellow-400">📍</span>
+                <input
+                  type="text"
+                  placeholder="Pickup location"
+                  className="bg-transparent text-white placeholder-zinc-400 focus:outline-none text-xs w-36"
+                />
               </div>
-            </div>
 
-            {/* Stats */}
-            <div className="flex flex-wrap gap-8 text-sm sm:text-base text-gray-600 pt-4 font-medium">
-              <div>100+ Bikes Available</div>
-              <div>5+ City Hubs</div>
-              <div>2,000+ Riders Served</div>
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN – Image */}
-          <div className="relative order-1 lg:order-2 flex justify-center lg:justify-end items-start">
-            {/* Simplified pink background (no scale/rotate to prevent pushing content) */}
-            <div className="absolute inset-0 bg-pink-50/30 rounded-3xl -z-10 opacity-70" />
-
-            <div
-              ref={imageRef}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              className="relative w-full max-w-md sm:max-w-lg lg:max-w-none transition-transform duration-200 ease-out self-start"
-              style={{
-                transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.02)`,
-              }}
-            >
-              <div className="overflow-hidden rounded-3xl shadow-2xl border border-white/30">
-                <Image
-                    src="/image/dirtbike.gif"
-                  alt="Group of motorcycle riders"
-                  width={1400}
-                  height={900}
-                  className="w-full h-auto object-cover"
-                  priority
+              {/* Date */}
+              <div className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2">
+                <span className="text-sm text-yellow-400">📅</span>
+                <input
+                  type="date"
+                  className="bg-transparent text-white focus:outline-none text-xs w-36"
                 />
               </div>
             </div>
+
+            {/* Button */}
+            <button className="bg-yellow-400 text-black text-xs font-semibold px-4 py-2 rounded-lg hover:bg-yellow-300 transition">
+              Find Bikes
+            </button>
           </div>
-        </div> 
+        </div>
+
+        {/* RIGHT IMAGE */}
+        <div className="flex justify-center">
+          <Image
+            src="/image/dirtbike.gif"
+            alt="Bike"
+            width={420}
+            height={420}
+            className="object-contain"
+            priority
+            unoptimized
+          />
+        </div>
+
       </div>
-    </section>
+    </div>
   );
 }
