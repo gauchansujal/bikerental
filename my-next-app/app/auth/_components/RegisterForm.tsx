@@ -152,7 +152,7 @@ export default function RegisterForm() {
             </button>
 
             <div className="mt-1 text-center text-sm">
-                Already have an account? <Link href="/login" className="font-semibold hover:underline">Log in</Link>
+                Already have an account? <Link href="/auth/login" className="font-semibold hover:underline">Log in</Link>
             </div>
         </form>
     );

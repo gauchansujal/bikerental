@@ -1,89 +1,93 @@
-
 "use client";
 import { useForm } from "react-hook-form";
-import { resestPasswordSchema, ResestPasswordData } from "../schema";
+import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "react-toastify";
 import { handleResetPassword } from "@/lib/actions/auth-action";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { toast } from "react-toastify"
 import Link from "next/link";
-const ResetPasswordForm = (
-    { token }: { token: string }
-) => {
-    const router = useRouter();
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<ResestPasswordData>({
-        mode: "onSubmit",
-        resolver: zodResolver(resestPasswordSchema),
+import { useRouter } from "next/navigation";
+export const ResetPasswordSchema = z.object({
+    password: z.string().min(6, "Password must be at least 6 characters long"),
+    confirmPassword: z.string().min(6, "Confirm Password must be at least 6 characters long")
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+});
+
+export type ResetPasswordDTO = z.infer<typeof ResetPasswordSchema>;
+
+export default function ResetPasswordForm({
+    token,
+}: {
+    token: string;
+}) {
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<ResetPasswordDTO>({
+        resolver: zodResolver(ResetPasswordSchema)
     });
-    const [error, setError] = useState<string | null>(null);
-    const [pending, setTransition] = useTransition();
-    const submit = (values: ResestPasswordData) => {
-        setError(null);
-        setTransition(async () => {
-            try {
-                const result = await handleResetPassword(token, values.newPassword);
-                if (result.success) {
-                    toast.success("Password has been reset successfully.");
-                    return router.push('/login');
-                }
-                else {
-                    throw new Error(result.message || 'Failed to reset password');
-                }
-            } catch (err: Error | any) {
-                toast.error(err.message || 'Failed to reset password');
+    const router = useRouter();
+    const onSubmit = async (data: ResetPasswordDTO) => {
+        try {
+            const response = await handleResetPassword(token, data.password);
+            if (response.success) {
+                toast.success("Password reset successfully");
+                // Redirect to login page
+                router.replace('/auth/login');
+            } else {
+                toast.error(response.message || "Failed to reset password");
             }
-        })
+        } catch (error) {
+            // Handle error
+            toast.error("An unexpected error occurred");
+        }
     }
+
     return (
+        <div>
+            <form className="max-w-md" onSubmit={handleSubmit(onSubmit)}>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1" htmlFor="password">
+                        New Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        {...register("password")}
+                        className="w-full border border-gray-300 p-2 rounded"
+                    />
+                    {errors.password && (
+                        <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                    )}
+                </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1" htmlFor="confirmPassword">
+                        Confirm New Password
+                    </label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        {...register("confirmPassword")}
+                        className="w-full border border-gray-300 p-2 rounded"
+                    />
+                    {errors.confirmPassword && (
+                        <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+                    )}
+                </div>
+                <div className="mb-4">
+                    <Link href="/auth/login" className="text-sm text-blue-500 hover:underline mb-4 inline-block">
+                        Back to Login
+                    </Link>
+                    <Link href="/auth/forget-password" className="text-sm text-blue-500 hover:underline mb-4 inline-block ml-4">
+                        /Request another reset email
+                    </Link>
+                </div>
 
-        <form onSubmit={handleSubmit(submit)} className="space-y-4">
-            {error && (
-                <p className="text-sm text-red-600">{error}</p>
-            )}
-            <div className="space-y-1">
-                <label className="text-sm font-medium" htmlFor="password">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    autoComplete="new-password"
-                    className="h-10 w-full rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm outline-none focus:border-foreground/40"
-                    {...register("newPassword")}
-                    placeholder="••••••"
-                />
-                {errors.newPassword?.message && (
-                    <p className="text-xs text-red-600">{errors.newPassword.message}</p>
-                )}
-            </div>
-
-            <div className="space-y-1">
-                <label className="text-sm font-medium" htmlFor="confirmPassword">Confirm password</label>
-                <input
-                    id="confirmPassword"
-                    type="password"
-                    autoComplete="new-password"
-                    className="h-10 w-full rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm outline-none focus:border-foreground/40"
-                    {...register("confirmPassword")}
-                    placeholder="••••••"
-                />
-                {errors.confirmPassword?.message && (
-                    <p className="text-xs text-red-600">{errors.confirmPassword.message}</p>
-                )}
-            </div>
-
-            <button
-                type="submit"
-                disabled={isSubmitting || pending}
-                className="h-10 w-full rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90 disabled:opacity-60"
-            >
-                {isSubmitting || pending ? "Resetting password..." : "Reset password"}
-            </button>
-
-            <div className="mt-1 text-center text-sm">
-                Want to log in? <Link href="/auth/login" className="font-semibold hover:underline">Log in</Link>
-            </div>
-        </form>
-    );
+                <button
+                    type="submit"
+                    className="bg-blue-600 text-black px-4 py-2 rounded hover:bg-red-600"
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? "Resetting..." : "Reset Password"}
+                </button>
+            </form>
+        </div>
+    )
 }
-
-export default ResetPasswordForm;

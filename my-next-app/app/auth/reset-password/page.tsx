@@ -6,11 +6,7 @@ export default async function Page({
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
     const query = await searchParams;
-    const token = query.token as string | undefined;
-    if(!token){
-        throw new Error('Invalid or missing token');
-    }
-
+    const token = query.token ? (query.token as string) : '';
     return (
         <div>
             <ResetPasswordForm token={token} />
