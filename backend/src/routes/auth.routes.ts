@@ -8,6 +8,8 @@ let authController = new AuthController();
 router.post("/register", controller.register);
 router.post("/login", controller.login);
 router.get("/whoami", authorizationMiddleware, authController.getProfile);
+router.post("/requestresetPassword", authController.sendResetPasswordEmail);
+router.post("/reset-password/:token", authController.resetPassword);
 
 router.put(
     "/update-profile",
@@ -15,6 +17,5 @@ router.put(
     uploads.single("image"), // "image" - field name from frontend/client
     authController.updateProfile
 )
-
 
 export default router;
