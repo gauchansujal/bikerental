@@ -1,7 +1,7 @@
 import { CreateUserDTO, LoginUserDto, UpdateUserDto } from "../../dots/user.dto";
 import { Request, Response, NextFunction } from "express";
 import z from "zod";
-import { QueryParams } from "../../types/query.types";
+import { QueryParmas } from "../../types/query.types";
 import { AdminUserServices } from "../../services/admin/user.services";
 import { id } from "zod/locales";
 
@@ -33,7 +33,7 @@ export class AdminUserController {
 
     async getAllUsers(req: Request, res: Response, next: NextFunction) {
         try {
-            const { page, size, search }: QueryParams = req.query;
+            const { page, size, search }: QueryParmas = req.query;
             const { users, pagination } = await adminUserService.getAllUsers(
                 page, size, search
             );
