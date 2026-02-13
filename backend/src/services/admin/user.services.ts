@@ -22,9 +22,22 @@ export class AdminUserServices{
         return newUser;
 
     }
-    async getAllUsers(){
-        const user = await userRepository.getAllUsers();
-        return user;
+    async getAllUsers(page?: string, size?: string, search?: string
+){
+        const pageNumber = page ? parseInt(page) : 1;
+        const pageSize = size ? parseInt(size) : 10;
+        const {users, total} = await userRepository.getAllUsers(
+            pageNumber, pageSize, search
+        );
+        const pagination = {
+            page: pageNumber,
+            size: pageSize,
+            totalItems: total,
+            totalPages: Math.ceil(total / pageSize)
+        }
+        return {users, pagination};
+
+        
     }
     async deleteUser(id: string)
     {
