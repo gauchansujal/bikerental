@@ -1,6 +1,6 @@
 "use client";
 import { Controller, useForm } from "react-hook-form";
-import { UserData, UserSchema } from "@/app/admin/users/schema";
+import { UserData, UserEditSchema } from "@/app/admin/users/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState, useTransition } from "react";
 import Link from "next/link";
@@ -13,13 +13,15 @@ export default function UpdateUserForm(
 
     const [pending, startTransition] = useTransition();
     const { register, handleSubmit, control, reset, formState: { errors, isSubmitting } } = useForm<Partial<UserData>>({
-        resolver: zodResolver(UserSchema.partial()),
+        resolver: zodResolver(UserEditSchema),
         defaultValues: {
             firstName: user.firstName || '',
             lastName: user.lastName || '',
             email: user.email || '',
             username: user.username || '',
             image: undefined,
+            
+
         }
     });
     const [error, setError] = useState<string | null>(null);

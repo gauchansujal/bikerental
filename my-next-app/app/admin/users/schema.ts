@@ -1,3 +1,4 @@
+// schemas/user.ts (or wherever your schemas live)
 import z from "zod";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -27,10 +28,7 @@ export const UserSchema = z.object({
 export type UserData = z.infer<typeof UserSchema>;
 
 // ────────────────────────────────────────────────
-// For editing — most fields optional, no password confirmation required
-export const UserEditSchema = z.object(UserSchema.shape).partial({
-  // You can make some fields still required if needed
-  // email: true,   // ← keep required during edit
-});
+// Edit schema: all fields optional, drops password refinement
+export const UserEditSchema = z.object(UserSchema.shape).partial();
 
 export type UserEditData = z.infer<typeof UserEditSchema>;
