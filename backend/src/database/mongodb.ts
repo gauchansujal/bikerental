@@ -15,3 +15,12 @@ export const connectDB = async () => {
     process.exit(1);
   }
 };
+export async function connectDatabaseTest(){
+    try {
+        await mongoose.connect(process.env.MONGODB_URL + "_test");
+        console.log("Connected to MongoDB");
+    } catch (error) {
+        console.error("Database Error:", error);
+        process.exit(1); // Exit process with failure
+    }
+}

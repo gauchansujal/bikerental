@@ -8,7 +8,9 @@ export interface IUserRepository{
   // 5 common databse queries for enity
   createUser(useData: Partial<Iuser>): Promise<Iuser>;
   getUserById(id: string): Promise<Iuser | null>;
-  getAllUsers(page: number, size: number, search?:string): Promise<{users:Iuser[], total:number}>;
+ getAllUsers(
+        page: number, size: number, search?: string
+    ): Promise<{users: Iuser[], total: number}>;
   updateUser(id: string, updsateData: Partial<Iuser>): Promise<Iuser | null >;
   deleteUser(id: string):Promise<boolean>;
 }
@@ -32,7 +34,22 @@ export class UserRepository implements IUserRepository{
    const user = await UserModel.findById(id);
    return user;
   }
-  
+  async getAllUsers(page:number, size:number, search?:string): Promise<{users:Iuser[],total: number}> {
+    const filter:QueryFilter<Iuser> = {};
+    if(search){
+      filter.$or = [
+        {username:{$regex:search,$options:'i'}},
+        {email: {$regex:search,$options:'i'}},
+        {lastName: {$regex:search,$options:'i'}},
+      ];
+    }
+   const [users, total] = await Promise.all([
+    UserModel.find(filter).skip((page -1)*size).limit(size),
+    UserModel.countDocuments(filter)
+   ]);
+    return {users,total};
+   
+  }
   async updateUser(id: string , updateData: Partial<Iuser>): Promise<Iuser | null> {
     const updateduser = await UserModel.findByIdAndUpdate(id, updateData,{new: true});//retrun teh updated document 
    return updateduser;
@@ -42,26 +59,6 @@ export class UserRepository implements IUserRepository{
     const result = await UserModel.findByIdAndDelete(id);
    return result ? true :false;
   }
-     async getAllUsers(
-        page: number, size: number, search?: string
-    ): Promise<{users: Iuser[], total: number}> {
-        const filter: QueryFilter<Iuser> = {};
-        if (search) {
-            filter.$or = [
-                { username: { $regex: search, $options: 'i' } },
-                { email: { $regex: search, $options: 'i' } },
-                { firstName: { $regex: search, $options: 'i' } },
-                { lastName: { $regex: search, $options: 'i' } },
-            ];
-        }
-        const [users, total] = await Promise.all([
-            UserModel.find(filter)
-                .skip((page - 1) * size)
-                .limit(size),
-            UserModel.countDocuments(filter)
-        ]);
-        return { users, total };
-}
 }
 
 // you should konw
