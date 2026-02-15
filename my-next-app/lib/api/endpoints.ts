@@ -5,7 +5,8 @@ export const API = {
     AUTH: {
         login: '/api/auth/login',
         REGISTER: '/api/auth/register',
-         WHOAMI: '/api/auth/whoami',
+       
+        WHOAMI: '/api/auth/whoami',
         UPDATEPROFILE: '/api/auth/update-profile',
         REQUEST_PASSWORD_RESET: '/api/auth/requestresetPassword',
         RESET_PASSWORD: (token: string) => `/api/auth/reset-password/${token}`,
@@ -18,5 +19,10 @@ export const API = {
             UPDATE: (userId: string)=>`/api/admin/users/${userId}`,
             DELETE: (userId: string) => `/api/admin/users/${userId}`,
         }
-    }
+       
+    },
+    BIKE:{
+            Get_ALL: '/api/bike/'
+
+        }
 }
