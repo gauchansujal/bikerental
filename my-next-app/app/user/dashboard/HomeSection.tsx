@@ -1,67 +1,95 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 
 export default function HomeSection() {
+  const [style, setStyle] = useState({});
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black px-4">
-      <div className="max-w-6xl w-full grid md:grid-cols-2 gap-10 items-center">
+    <section
+      id="home"
+      className="min-h-screen flex items-center justify-center bg-white px-6"
+    >
+      <div className="max-w-7xl w-full grid md:grid-cols-2 gap-12 items-center">
         
         {/* LEFT CONTENT */}
-        <div>
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Rent the <span className="text-yellow-400">Best Bikes</span>
-          </h1>
+        <div className="space-y-6">
+          <button className="px-4 py-1 text-sm rounded-full border border-red-300 text-red-500 bg-red-50">
+            Feel the Thrill 🏍️
+          </button>
 
-          <p className="text-zinc-400 mb-6">
-            Find affordable bikes for your next adventure.
+          <p className="text-gray-500 max-w-md">
+            Choose from high-performance cruisers, sport bikes, and scooters.
+            Affordable, well-maintained, and ready for the open road.
           </p>
 
-          {/* SEARCH BAR */}
-          <div className="bg-zinc-900 p-4 rounded-2xl space-y-3 w-fit">
-            <div className="grid sm:grid-cols-2 gap-3">
-              
-              {/* Location */}
-              <div className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2">
-                <span className="text-sm text-yellow-400">📍</span>
-                <input
-                  type="text"
-                  placeholder="Pickup location"
-                  className="bg-transparent text-white placeholder-zinc-400 focus:outline-none text-xs w-36"
-                />
-              </div>
+          {/* SEARCH CARD */}
+          <div className="bg-slate-800 p-4 rounded-2xl shadow-lg w-full max-w-md">
+            <div className="grid sm:grid-cols-2 gap-3 mb-3">
+              <input
+                type="text"
+                placeholder="Pickup location"
+                className="bg-slate-900 text-white placeholder-gray-400 px-3 py-2 rounded-lg text-sm focus:outline-none"
+              />
 
-              {/* Date */}
-              <div className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2">
-                <span className="text-sm text-yellow-400">📅</span>
-                <input
-                  type="date"
-                  className="bg-transparent text-white focus:outline-none text-xs w-36"
-                />
-              </div>
+              <input
+                type="date"
+                className="bg-slate-900 text-white px-3 py-2 rounded-lg text-sm focus:outline-none"
+              />
             </div>
 
-            {/* Button */}
-            <button className="bg-yellow-400 text-black text-xs font-semibold px-4 py-2 rounded-lg hover:bg-yellow-300 transition">
-              Find Bikes
+            <button className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold transition">
+              🔎 Find Your Ride
             </button>
+          </div>
+
+          <div className="flex gap-6 text-sm text-gray-400">
+            <span>Bikes Available</span>
+            <span>City Hubs</span>
+            <span>Riders Served</span>
           </div>
         </div>
 
-        {/* RIGHT IMAGE */}
-        <div className="flex justify-center">
-          <Image
-            src="/image/dirtbike.gif"
-            alt="Bike"
-            width={420}
-            height={420}
-            className="object-contain"
-            priority
-            unoptimized
-          />
+        {/* RIGHT IMAGE WITH CURSOR ROTATION */}
+        <div
+          className="flex justify-center md:justify-end"
+          onMouseMove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const rotateX = ((y / rect.height) - 0.5) * -12;
+            const rotateY = ((x / rect.width) - 0.5) * 12;
+
+            setStyle({
+              transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+            });
+          }}
+          onMouseLeave={() =>
+            setStyle({ transform: "rotateX(0deg) rotateY(0deg)" })
+          }
+        >
+          <div className="relative" style={{ perspective: "1000px" }}>
+            
+            {/* background card */}
+            <div className="absolute inset-0 bg-red-200 rounded-3xl rotate-3"></div>
+
+            {/* image */}
+            <Image
+              src="/image/dirtbike.gif"
+              alt="Bike"
+              width={600}
+              height={600}
+              style={style}
+              className="relative rounded-3xl shadow-xl w-[700px] h-[500px] animate-float-rotate transition-transform duration-200"
+              priority
+              unoptimized
+            />
+          </div>
         </div>
 
       </div>
-    </div>
+    </section>
   );
 }

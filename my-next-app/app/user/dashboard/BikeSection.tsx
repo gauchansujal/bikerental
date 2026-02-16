@@ -12,127 +12,76 @@ export default function BikeSection() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loading bikes...</p>;
+  if (loading) return <p className="text-center py-20">Loading bikes...</p>;
 
   return (
-    <div  
-      id="bikes"
-      style={{
-      display: "flex",
-      flexWrap: "wrap",
-      gap: "24px",
-     
-      padding: "20px",
-    }}>
-      {bikes.map((bike) => (
-        <div
-          key={bike._id}
-          style={{
-            width: "320px",
-            borderRadius: "12px",
-            overflow: "hidden",
-            backgroundColor: "#fff",
-            boxShadow: "0 4px 15px rgba(0,0,0,0.12)",
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {/* Image + Available badge */}
-          <div style={{ position: "relative" }}>
-            {bike.imageUrl && (
-              <img
-                src={`http://localhost:5000${bike.imageUrl}`}
-                alt={bike.name}
-                style={{
-                  width: "100%",
-                  height: "220px",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
-            )}
-            {bike.isAvilable && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "12px",
-                  right: "12px",
-                  backgroundColor: "#00c853",
-                  color: "#fff",
-                  padding: "4px 12px",
-                  borderRadius: "20px",
-                  fontSize: "0.8rem",
-                  fontWeight: "bold",
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                }}
-              >
-                Available
-              </div>
-            )}
-          </div>
+    <section id="bikes" className="bg-gray-50 py-16 px-6">
+      
+      {/* TITLE */}
+      <div className="max-w-6xl mx-auto text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+          Choose Your Perfect Ride
+        </h2>
+        <p className="text-gray-500 mt-3">
+          From nimble scooters for the city to powerful cruisers for the highway
+        </p>
+      </div>
 
-          {/* Content */}
-          <div style={{ padding: "16px", flexGrow: 1, display: "flex", flexDirection: "column" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-              <h3 style={{ margin: 0, fontSize: "1.4rem", fontWeight: 600 }}>
-                {bike.name}
-              </h3>
-              <span style={{ fontSize: "1.1rem", color: "#ffb300" }}>★ {bike.rating || "4.8"}</span>
+      {/* BIKE GRID */}
+      <div className="max-w-6xl flex flex-wrap  gap-10 pl-20">
+        {bikes.map((bike) => (
+          <div
+            key={bike._id}
+            className="w-[320px] rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg transition relative flex flex-col"
+          >
+            {/* Image */}
+            <div className="relative">
+              {bike.imageUrl && (
+                <img
+                  src={`http://localhost:5000${bike.imageUrl}`}
+                  alt={bike.name}
+                  className="w-full h-[220px] object-cover"
+                />
+              )}
+
+              {bike.isAvilable && (
+                <span className="absolute top-3 right-3 bg-green-500 text-white text-xs px-3 py-1 rounded-full font-semibold">
+                  Available
+                </span>
+              )}
             </div>
 
-            <p style={{
-              margin: "0 0 8px 0",
-              color: "#555",
-              fontSize: "0.95rem",
-              fontWeight: 500,
-              textTransform: "uppercase",
-              letterSpacing: "0.5px",
-            }}>
-              {bike.engineCC }
-            </p>
-
-            <p style={{
-              margin: "0 0 16px 0",
-              color: "#666",
-              fontSize: "0.9rem",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-            }}>
-              <span style={{ fontSize: "1.1rem" }}>📍</span>
-              {bike.brand }
-            </p>
-
-            <div style={{ marginTop: "auto" }}>
-              <div style={{
-                fontSize: "1.6rem",
-                fontWeight: "bold",
-                color: "#d32f2f",
-                marginBottom: "12px",
-              }}>
-                ${bike.price || "45"} <span style={{ fontSize: "1rem", fontWeight: 500 }}>/ day</span>
+            {/* Content */}
+            <div className="p-4 flex flex-col flex-grow">
+              <div className="flex justify-between items-center mb-1">
+                <h3 className="text-lg font-semibold">{bike.name}</h3>
+                <span className="text-yellow-500 text-sm font-medium">
+                  ★ {bike.milage || "4.8"  }
+                </span>
               </div>
 
-              <button
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  backgroundColor: "#d32f2f",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "8px",
-                  fontSize: "1.05rem",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                }}
-              >
-                Rent Now
-              </button>
+              <p className="text-xs uppercase text-gray-500 mb-2">
+                {bike.engineCC}
+              </p>
+
+              <p className="text-sm text-gray-500 mb-4">
+                📍 {bike.brand}
+              </p>
+
+              <div className="mt-auto flex items-center justify-between">
+                <div className="text-xl font-bold text-red-600">
+                  ${bike.price || "45"}
+                  <span className="text-sm font-normal text-gray-500"> / day</span>
+                </div>
+
+                <button className="bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded-lg">
+                  Rent Now
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </section>
   );
 }
