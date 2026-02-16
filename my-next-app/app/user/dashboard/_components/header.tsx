@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <header className="border-b bg-white sticky top-0 z-50 w-full">
       {/* Full-width background */}
-      <div className="w-screen bg-[#e0f2fe] border-b">
+      <div className="w-screen bg-white border-b">
         {/* Inner content remains centered */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
@@ -35,25 +35,25 @@ export default function Header() {
             <nav className="hidden md:flex items-center gap-8">
               <button
                 onClick={() => scrollTo("home")}
-                className="text-red-700 hover:text-red-600 font-medium transition-colors"
+                className="text-black-700 hover:text-red-600 font-medium transition-colors"
               >
                 Home
               </button>
               <button
                 onClick={() => scrollTo("bikes")}
-                className="text-red-700 hover:text-red-600 font-medium transition-colors"
+                className="text-black-700 hover:text-red-600 font-medium transition-colors"
               >
                 Bikes
               </button>
               <Link
                 href="/how-it-works"
-                className="text-red-700 hover:text-red-600 font-medium transition-colors"
+                className="text-black-700 hover:text-red-600 font-medium transition-colors"
               >
                 How It Works
               </Link>
               <Link
                 href="/pricing"
-                className="text-red-700 hover:text-red-600 font-medium transition-colors"
+                className="text-black-700 hover:text-red-600 font-medium transition-colors"
               >
                 Pricing
               </Link>
@@ -70,7 +70,7 @@ export default function Header() {
 
               <Link
                 href="/get-started"
-                className="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-sm whitespace-nowrap"
+                className="bg-red-600 hover:bg-red-700 text-black px-5 py-2.5 rounded-lg font-medium transition-colors shadow-sm whitespace-nowrap"
               >
                 Get Started
               </Link>

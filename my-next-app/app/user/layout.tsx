@@ -4,7 +4,7 @@ import Footer from "./dashboard/_components/footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <section className="flex flex-col bg-black-100 min-h-screen">
+    <section className="flex flex-col min-h-screen">
       <Header />
       {children}
       <Footer />
