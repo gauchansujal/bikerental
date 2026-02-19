@@ -6,6 +6,7 @@ import { HttpError } from './errors/http-error';
 import bodyParser from 'body-parser';
 import bikeRoutes from './routes/bike.routes';
 import dlRoutes from "./routes/dl.routes";
+import bookingRoutes from "./routes/booking.routes";
 
 import adminUserRoutes from "./routes/admin/user.admin";
 import { Admin } from 'mongodb';
@@ -21,6 +22,7 @@ const corsOptions = {
 
 };
 app.use(cors(corsOptions));
+app.use(express.json());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,6 +32,7 @@ app.use('/api/auth', authRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use('/api/bike',bikeRoutes);
 app.use('/api/dl', dlRoutes);
+app.use('/api/booking',bookingRoutes);
 
 
 

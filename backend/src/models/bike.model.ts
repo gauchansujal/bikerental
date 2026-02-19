@@ -1,7 +1,6 @@
 import mongoose, { model, Schema, Document } from "mongoose";
 import {  BikeType } from "../types/bike.type";
-import { string } from "zod";
-import { timeStamp } from "console";
+
 
 const  BikeSchema : Schema = new Schema<BikeType>({ 
     //2️⃣ : Schema// This is TypeScript type annotation// 👉 It tells TypeScript that// userSchema is a Mongoose Schema// It is only for type safety (not required in JS).// 3️⃣ new Schema<UserType>()// This is where the schema is actually created./ 🔹 new Schema()// Creates a new schema object from mongoose// 🔹 <UserType>// This is a generic type
