@@ -11,7 +11,7 @@ export interface IUserRepository{
  getAllUsers(
         page: number, size: number, search?: string
     ): Promise<{users: Iuser[], total: number}>;
-  updateUser(id: string, updsateData: Partial<Iuser>): Promise<Iuser | null >;
+  updateUser(id: string, updateData: Partial<Iuser>): Promise<Iuser | null >;
   deleteUser(id: string):Promise<boolean>;
 }
 //mongodb Implementation of userRepository

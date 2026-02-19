@@ -1,0 +1,77 @@
+import { Request, Response } from "express";
+import { DLServices } from "../services/dl.services";
+import { DLType } from "../types/driving.license";
+
+const service = new DLServices();
+
+type IdParams = {
+  id: string;
+};
+
+// ✅ GET ALL
+export const getAllDL = async (req: Request, res: Response) => {
+  try {
+    const dl = await service.getAll();
+    res.status(200).json(dl);
+  } catch {
+    res.status(500).json({ message: "Failed to fetch licenses" });
+  }
+};
+
+// ✅ CREATE WITH TWO IMAGE UPLOADS
+export const createDL = async (req: Request, res: Response) => {
+  try {
+    const data: DLType = req.body;
+
+    if (req.files) {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+      if (files.drivingLicenseImageUrl && files.drivingLicenseImageUrl[0]) {
+        data.drivingLicenseImageUrl = files.drivingLicenseImageUrl[0].filename;
+      }
+
+      if (files.nationalIdImageUrl && files.nationalIdImageUrl[0]) {
+        data.nationalIdImageUrl = files.nationalIdImageUrl[0].filename;
+      }
+    }
+
+    const dl = await service.create(data);
+    res.status(201).json(dl);
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// ✅ UPDATE WITH TWO IMAGE UPLOADS
+export const updateDL = async (req: Request<IdParams>, res: Response) => {
+  try {
+    const data: Partial<DLType> = req.body;
+
+    if (req.files) {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+      if (files.drivingLicenseImageUrl && files.drivingLicenseImageUrl[0]) {
+        data. drivingLicenseImageUrl= files.drivingLicenseImageUrl[0].filename;
+      }
+
+      if (files.nationalIdImageUrl && files.nationalIdImageUrl[0]) {
+        data.nationalIdImageUrl = files.nationalIdImageUrl[0].filename;
+      }
+    }
+
+    const dl = await service.update(req.params.id, data);
+    res.status(200).json(dl);
+  } catch (err: any) {
+    res.status(400).json({ message: err.message || "Update failed" });
+  }
+};
+
+// ✅ DELETE
+export const deleteDL = async (req: Request<IdParams>, res: Response) => {
+  try {
+    await service.delete(req.params.id);
+    res.status(200).json({ message: "Deleted successfully" });
+  } catch {
+    res.status(400).json({ message: "Delete failed" });
+  }
+};

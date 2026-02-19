@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.routes';
 import { HttpError } from './errors/http-error';
 import bodyParser from 'body-parser';
 import bikeRoutes from './routes/bike.routes';
+import dlRoutes from "./routes/dl.routes";
 
 import adminUserRoutes from "./routes/admin/user.admin";
 import { Admin } from 'mongodb';
@@ -23,12 +24,13 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/api/admin/user', adminUserRoutes);
+app.use('/api/admin/users', adminUserRoutes);
 
 app.use('/api/auth', authRoutes);
-
-app.use('/api/bike',bikeRoutes);
 app.use("/uploads", express.static("uploads"));
+app.use('/api/bike',bikeRoutes);
+app.use('/api/dl', dlRoutes);
+
 
 
 
