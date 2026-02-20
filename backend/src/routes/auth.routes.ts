@@ -5,6 +5,7 @@ import { uploads } from "../middlewares/uplode.middlewares";
 const router = Router();
 const controller = new AuthController();
 let authController = new AuthController();
+
 router.post("/register", controller.register);
 router.post("/login", controller.login);
 router.get("/whoami", authorizationMiddleware, authController.getProfile);

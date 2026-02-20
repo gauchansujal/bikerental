@@ -2,6 +2,7 @@ import { error } from "node:console";
 import { IBooking } from "../models/booking.model";
 import { BookingRepository } from "../repositories/booking.repository";
 import { BookingSchema } from "../types/booking.type";
+import { DLModel } from "../models/driving.license.model";
 
 type CreateBookingPayload = {
     bike: string;
@@ -27,8 +28,13 @@ export class BookingServices{
 
     //create 
     async createBooking(useData: unknown, userId: string): Promise<IBooking>{
-        console.log("useData:", useData);   // ← add this line
-    console.log("userId:", userId);     // ← add this line
+    //     console.log("useData:", useData);   // ← add this line
+    // console.log("userId:", userId);     // ← add this line
+
+    const dl = await DLModel.findOne({user: userId});
+    if(!dl){
+        throw new Error("User must have a driving licesnse to book a bike ");
+    }
         const parsed = BookingSchema.safeParse(useData);
         if(!parsed.success){
             const errors = parsed.error.issues.map((e)=> e.message).join(",");

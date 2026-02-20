@@ -36,7 +36,8 @@ export class BookingController {
       const booking = await service.createBooking(req.body, userId);
       res.status(201).json({ success: true, message: "bike booked successfully!", data: booking });
     } catch (error: any) {
-      res.status(400).json({ success: false, message: error.message });
+        const isDLError = error.message.includes("driving license");
+      res.status(400).json({ success: false, message: isDLError ? "Please provide a valid driving license" : error.message });
     }
   }
 

@@ -1,4 +1,5 @@
 import mongoose, { Schema, model, Document } from "mongoose";
+import { BookingType } from "../types/booking.type";
 
 const BookingSchema = new Schema(
   {
@@ -25,12 +26,12 @@ const BookingSchema = new Schema(
   }
 );
 
-export interface IBooking extends Document {
+export interface IBooking extends BookingType,Document {
   _id: mongoose.Types.ObjectId;
-  user: mongoose.Types.ObjectId; // ObjectId in DB
-  bike: mongoose.Types.ObjectId; // ObjectId in DB
-  bookingDate?: Date;
-  returnDate?: Date;
+  // user: mongoose.Types.ObjectId; // ObjectId in DB
+  // bike: mongoose.Types.ObjectId; // ObjectId in DB
+  // bookingDate?: Date;
+  // returnDate?: Date;
   createdAt: Date;
   updatedAt: Date;
 }

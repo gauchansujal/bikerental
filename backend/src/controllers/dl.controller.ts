@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { DLServices } from "../services/dl.services";
 import { DLType } from "../types/driving.license";
+import { required } from "zod/mini";
 
 const service = new DLServices();
 
@@ -17,26 +18,33 @@ export const getAllDL = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to fetch licenses" });
   }
 };
-
-// ✅ CREATE WITH TWO IMAGE UPLOADS
 export const createDL = async (req: Request, res: Response) => {
   try {
-    const data: DLType = req.body;
+    const data = req.body;
 
     if (req.files) {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-      if (files.drivingLicenseImageUrl && files.drivingLicenseImageUrl[0]) {
+      if (files.drivingLicenseImageUrl?.[0]) {
         data.drivingLicenseImageUrl = files.drivingLicenseImageUrl[0].filename;
       }
-
-      if (files.nationalIdImageUrl && files.nationalIdImageUrl[0]) {
+      if (files.nationalIdImageUrl?.[0]) {
         data.nationalIdImageUrl = files.nationalIdImageUrl[0].filename;
       }
     }
 
+    if (!data.drivingLicenseImageUrl) {
+      return res.status(400).json({ message: "Driving license image is required" });
+    }
+    if (!data.nationalIdImageUrl) {
+      return res.status(400).json({ message: "National ID image is required" });
+    }
+
+    // ✅ This line must exist
+    data.user = (req as any).user._id.toString();
+
     const dl = await service.create(data);
     res.status(201).json(dl);
+
   } catch (err: any) {
     res.status(400).json({ message: err.message });
   }
@@ -73,5 +81,16 @@ export const deleteDL = async (req: Request<IdParams>, res: Response) => {
     res.status(200).json({ message: "Deleted successfully" });
   } catch {
     res.status(400).json({ message: "Delete failed" });
+  }
+};
+
+//get by id
+export const getDLById = async (req:Request<IdParams>, res: Response)=>{
+  try{
+    const dl = await service.getById(req.params.id);
+    res.status(200).json(dl);
+
+  }catch(err: any){
+    res.status(400).json({message: err.message || "Driving license not found"});
   }
 };

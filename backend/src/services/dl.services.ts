@@ -1,10 +1,10 @@
-import { DrivingLicenseRepositroy } from "../repositories/driving.license.repository";
+import { DrivingLicenseRepository } from "../repositories/driving.license.repository";
 import { DLSchema, DLType } from "../types/driving.license";
 import { IDL } from "../models/driving.license.model";
 import { error } from "node:console";
 
 export class DLServices {
-  private repo = new DrivingLicenseRepositroy();
+  private repo = new DrivingLicenseRepository();
 
   async getAll(): Promise<IDL[]> {
     return await this.repo.getAll();
@@ -19,6 +19,11 @@ export class DLServices {
     }
 
     return await this.repo.create(parsed.data);
+  }
+
+
+  async getById(id: string): Promise<IDL | null> {
+    return await this.repo.getById(id);
   }
 
   async update(id: string, data: Partial<DLType>): Promise<IDL | null> {

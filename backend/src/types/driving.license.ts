@@ -1,6 +1,8 @@
 import z from "zod";
 
 export const DLSchema = z.object({
+
+   user: z.string().min(1, "User is required"),
   drivingLicense: z.string().regex(/^\d{2}-\d{2}-\d{8}$/, "License number must follow 01-06-01234567 format"),  
   drivingLicenseImageUrl: z.string().min(1, "License image is required"),
   nationalId: z.string().regex(/^\d{2}-\d{2}-\d{2}-\d{5}$/, "National ID must be at least 16 digits"),
