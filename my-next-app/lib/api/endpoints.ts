@@ -31,5 +31,13 @@ export const API = {
             GET_ALL: '/api/dl/',
             CREATE:'/api/dl/',
             
-        }
+        },
+
+    BOOKING:{
+        CREATE: '/api/booking/',
+        GET_ALL: '/api/booking',
+
+
+    }
+    
 }
