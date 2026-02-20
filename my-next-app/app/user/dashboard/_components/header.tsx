@@ -5,26 +5,30 @@ import ThemeToggle from "@/app/_components/ThemeToggle";
 import Link from 'next/link';
 import { handleLogout } from "@/lib/actions/auth-action";
 import { Bike } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Header() {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const scrollTo = (id: string) => {
+    if (pathname !== '/user/dashboard') {
+      router.push(`/user/dashboard#${id}`);
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   return (
     <header className="border-b bg-white sticky top-0 z-50 w-full">
-      {/* Full-width background */}
       <div className="w-screen bg-white border-b">
-        {/* Inner content remains centered */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/user/dashboard" className="flex items-center gap-2">
               <Bike className="h-8 w-8 text-red-600" strokeWidth={2.5} />
               <span className="text-2xl font-bold text-black">
                 MotoRent
@@ -46,7 +50,7 @@ export default function Header() {
                 Bikes
               </button>
               <Link
-                href="/how-it-works"
+                href="/user/Uplodedrivinglicense"
                 className="text-black-700 hover:text-red-600 font-medium transition-colors"
               >
                 How It Works
@@ -79,7 +83,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Theme toggle - positioned absolutely */}
       <div className="absolute top-4 right-4 md:top-5 md:right-8 z-50">
         <ThemeToggle />
       </div>

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchAllBikes, Bike } from "../../../lib/actions/bike.action";
 
+
 export default function BikeSection() {
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,6 +83,7 @@ export default function BikeSection() {
           </div>
         ))}
       </div>
+      
     </section>
   );
 }

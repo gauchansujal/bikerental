@@ -21,8 +21,15 @@ export const API = {
         }
        
     },
+
     BIKE:{
             Get_ALL: '/api/bike/'
+        },
 
+        
+    DL:{
+            GET_ALL: '/api/dl/',
+            CREATE:'/api/dl/',
+            
         }
 }
