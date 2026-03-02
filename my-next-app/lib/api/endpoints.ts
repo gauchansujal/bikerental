@@ -18,12 +18,23 @@ export const API = {
             GET_ONE: (userId: string) => `/api/admin/users/${userId}`,
             UPDATE: (userId: string)=>`/api/admin/users/${userId}`,
             DELETE: (userId: string) => `/api/admin/users/${userId}`,
+        },
+        BIKES: {
+            CREATE : '/api/bike/',
+            UPDATE:  (id: string)   => `/api/bike/${id}`,
+            DELETE:  (id: string)   => `/api/bike/${id}`,
+
+
         }
        
     },
 
     BIKE:{
-            Get_ALL: '/api/bike/'
+            Get_ALL: '/api/bike/',
+            
+
+
+
         },
 
         
@@ -32,7 +43,7 @@ export const API = {
             CREATE:'/api/dl/',
             
         },
-
+ 
     BOOKING:{
         CREATE: '/api/booking/',
         GET_ALL: '/api/booking',

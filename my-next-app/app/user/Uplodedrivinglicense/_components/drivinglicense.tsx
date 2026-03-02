@@ -96,7 +96,7 @@ export default function DrivingLicenseForm() {
           required={!state.file}
         />
         {state.preview ? (
-          <div className="relative rounded-xl overflow-hidden border-2 border-gray-200 group-hover:border-blue-400 transition-all duration-300">
+          <div className="relative rounded-xl overflow-hidden border-2 border-gray-200 group-hover:border-red-400 transition-all duration-300">
             <img
               src={state.preview}
               alt={`${fieldName} preview`}
@@ -107,7 +107,7 @@ export default function DrivingLicenseForm() {
                 Change Image
               </span>
             </div>
-            <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full font-semibold shadow">
+            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full font-semibold shadow">
               ✓ Selected
             </div>
           </div>
@@ -129,11 +129,11 @@ export default function DrivingLicenseForm() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-indigo-50 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600 shadow-lg shadow-blue-200 mb-4">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-red-600 shadow-lg shadow-red-200 mb-4">
             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
             </svg>
@@ -147,7 +147,7 @@ export default function DrivingLicenseForm() {
           <form onSubmit={handleSubmit}>
             {/* Personal Info Section */}
             <div className="p-8 pb-6">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-blue-500 mb-5">Personal Information</h2>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-red-500 mb-5">Personal Information</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-widest text-gray-500">Full Name</label>
@@ -158,7 +158,7 @@ export default function DrivingLicenseForm() {
                     value={formData.fullname}
                     onChange={handleChange}
                     required
-                    className="border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white focus:border-transparent transition-all"
+                    className="border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white focus:border-transparent transition-all"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
@@ -170,7 +170,7 @@ export default function DrivingLicenseForm() {
                     value={formData.phoneNumber}
                     onChange={handleChange}
                     required
-                    className="border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white focus:border-transparent transition-all"
+                    className="border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white focus:border-transparent transition-all"
                   />
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function DrivingLicenseForm() {
 
             {/* Driving License Section */}
             <div className="p-8 pb-6">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-blue-500 mb-5">Driving License</h2>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-red-500 mb-5">Driving License</h2>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-widest text-gray-500">License Number</label>
@@ -191,7 +191,7 @@ export default function DrivingLicenseForm() {
                     value={formData.drivingLicense}
                     onChange={handleChange}
                     required
-                    className="border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white focus:border-transparent transition-all"
+                    className="border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white focus:border-transparent transition-all"
                   />
                 </div>
                 <ImageUploadBox
@@ -199,7 +199,7 @@ export default function DrivingLicenseForm() {
                   fieldName="drivingLicense"
                   state={dlImage}
                   setter={setDlImage}
-                  accent="border-blue-200 bg-blue-50 hover:border-blue-400 hover:bg-blue-50"
+                  accent="border-red-200 bg-red-50 hover:border-red-400 hover:bg-red-50"
                 />
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function DrivingLicenseForm() {
 
             {/* National ID Section */}
             <div className="p-8 pb-6">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-emerald-500 mb-5">National ID</h2>
+              <h2 className="text-xs font-bold uppercase tracking-widest  text-red-500 text-emerald-500 mb-5">National ID</h2>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-widest text-gray-500">ID Number</label>
@@ -238,7 +238,7 @@ export default function DrivingLicenseForm() {
                 <div
                   className={`mb-4 px-4 py-3 rounded-xl text-sm font-medium flex items-center gap-2 ${
                     message.type === "success"
-                      ? "bg-green-50 text-green-700 border border-green-200"
+                      ? "bg-red-50 text-red-700 border border-red-200"
                       : "bg-red-50 text-red-700 border border-red-200"
                   }`}
                 >
@@ -249,7 +249,7 @@ export default function DrivingLicenseForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3.5 rounded-2xl transition-all duration-200 shadow-lg shadow-blue-200 hover:shadow-blue-300 active:scale-[0.98] text-sm tracking-wide"
+                className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-3.5 rounded-2xl transition-all duration-200 shadow-lg shadow-red-200 hover:shadow-red-300 active:scale-[0.98] text-sm tracking-wide"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">

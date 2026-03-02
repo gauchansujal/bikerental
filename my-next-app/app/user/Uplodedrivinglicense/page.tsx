@@ -1,4 +1,5 @@
 import DrivingLicenseForm from "../Uplodedrivinglicense/_components/drivinglicense";
+import ThemeToggle from "@/app/_components/ThemeToggle";
 
 export default function DrivingLicensePage() {
   return (
@@ -8,6 +9,7 @@ export default function DrivingLicensePage() {
       </h1>
 
       <DrivingLicenseForm />
+      <ThemeToggle />
     </div>
   );
 }
