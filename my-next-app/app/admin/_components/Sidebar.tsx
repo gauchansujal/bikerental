@@ -20,10 +20,10 @@ export default function Sidebar() {
             <aside className={`
                 fixed md:static 
                 top-0 left-0 
-                h-screen w-64 
+                h-full w-64 
                 bg-white dark:bg-gray-900 
                 border-r border-gray-200 dark:border-gray-800 
-                z-40 overflow-y-auto`}
+                z-40`}
             >
                 <div className="p-4 border-b border-gray-200 dark:border-gray-800">
                     <Link href="/admin" className="flex items-center gap-2">

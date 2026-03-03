@@ -141,7 +141,8 @@ const UserTable = (
                     Search
                 </button>
             </div>
-            <table className="w-full table-auto border-collapse">
+            <div className="overflow-x-auto">
+            <table className="w-full  border-collapse">
                 <thead className="bg-gray-50 dark:bg-gray-800">
                     <tr>
                         <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">ID</th>
@@ -186,6 +187,7 @@ const UserTable = (
                     ))}
                 </tbody>
             </table>
+            </div>
             {/* Pagination */}
             <div className="p-4 flex justify-between items-center bg-gray-50 dark:bg-gray-800">
                 <div className="text-sm text-gray-700 dark:text-gray-300">

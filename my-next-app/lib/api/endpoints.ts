@@ -23,6 +23,12 @@ export const API = {
             CREATE : '/api/bike/',
             UPDATE:  (id: string)   => `/api/bike/${id}`,
             DELETE:  (id: string)   => `/api/bike/${id}`,
+            Get_ALL: '/api/bike/',
+            GET_BY_Name:(name: string) =>`/api/bike/${name}`,
+            
+
+
+            
 
 
         }
@@ -31,6 +37,7 @@ export const API = {
 
     BIKE:{
             Get_ALL: '/api/bike/',
+            GET_BY_Name:(name: string) =>`/api/bike/${name}`,
             
 
 

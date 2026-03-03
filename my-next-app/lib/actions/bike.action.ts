@@ -77,16 +77,17 @@ export async function fetchBikesPaginated(
   }
 }
 
-// ✅ Fetch single bike by ID
+// ✅ Fix in lib/actions/bike.action.ts
 export async function fetchBikeById(id: string): Promise<Bike | null> {
   try {
-    const res = await fetch(`${BASE_URL}/api/bike/${id}`, { // ✅ /api/bike
+    const res = await fetch(`${BASE_URL}/api/bike/${id}`, {
       cache: "no-store",
     });
 
     if (!res.ok) return null;
 
-    return await res.json();
+    const data = await res.json();
+    return data.bike ?? null; // ✅ unwrap { bike: ... }
   } catch (err) {
     console.error("fetchBikeById error:", err);
     return null;

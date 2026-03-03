@@ -8,7 +8,7 @@ import { AuthProvider } from "@/context/Authcontext";   // check path — is it 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      <div className="flex w-full min-h-screen bg-background text-foreground">
+      <div className="flex w-full overflow-hidden min-h-screen bg-background text-foreground">
         <div className="page-wrapper flex w-full">
           {/* Sidebar – hidden on mobile/small screens */}
           <div className="hidden xl:block">
@@ -16,7 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
 
           {/* Main column */}
-          <div className="flex-1 flex flex-col min-h-screen bg-background">
+          <div className="flex-1 flex flex-col h-full bg-background">
             {/* Top Header */}
             <Header />
 

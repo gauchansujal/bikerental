@@ -3,10 +3,12 @@ import { Controller, useForm } from "react-hook-form";
 import { BikeData, BikeSchema } from "@/app/admin/bikes/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { createBike } from "@/lib/api/admin/bike";
+import { handleCreateBike } from "@/lib/actions/admin/bike.action";
 
 export default function CreateBikeForm() {
+    const router = useRouter();
     const [pending, startTransition] = useTransition();
     const {
         register,
@@ -55,12 +57,19 @@ export default function CreateBikeForm() {
                 formData.append("isAvailable", String(data.isAvailable));
                 if (data.image) formData.append("image", data.image);
 
-                await createBike(formData);
+                const result = await handleCreateBike(formData);
+
+                if (!result.success) {
+                    toast.error(result.message || "Failed to create bike");
+                    setError(result.message || "Failed to create bike");
+                    return;
+                }
 
                 reset();
                 setPreviewImage(null);
                 if (fileInputRef.current) fileInputRef.current.value = "";
                 toast.success("Bike created successfully");
+                router.push("/admin/bikes");
             } catch (error: Error | any) {
                 toast.error(error.message || "Create bike failed");
                 setError(error.message || "Create bike failed");
@@ -95,7 +104,7 @@ export default function CreateBikeForm() {
                                 </div>
                             ) : (
                                 <div className="w-32 h-24 bg-gray-300 rounded flex items-center justify-center">
-                                    <span className="text-whit-600 text-sm">No Image</span>
+                                    <span className="text-gray-600 text-sm">No Image</span>
                                 </div>
                             )}
                         </div>
@@ -107,17 +116,18 @@ export default function CreateBikeForm() {
                             </label>
                             <input
                                 ref={(e) => {
-                                    ref(e);                   // connect react-hook-form ref
-                                    fileInputRef.current = e; // keep local ref for manual reset
+                                    ref(e);
+                                    fileInputRef.current = e;
                                 }}
                                 type="file"
                                 accept=".jpg,.jpeg,.png,.webp"
                                 onChange={(e) =>
                                     handleImageChange(e.target.files?.[0], onChange)
                                 }
+                                className="h-10 w-full rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm outline-none focus:border-foreground/40"
                             />
                             {errors.image && (
-                                <p className="text-sm text-white-700">{errors.image.message}</p>
+                                <p className="text-sm text-red-600">{errors.image.message}</p>
                             )}
                         </div>
                     </div>
@@ -185,7 +195,7 @@ export default function CreateBikeForm() {
                         id="engineCC"
                         type="number"
                         className="h-10 w-full rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm outline-none focus:border-foreground/40"
-                        {...register("engineCC")}
+                        {...register("engineCC", { valueAsNumber: true })}
                         placeholder="600"
                     />
                     {errors.engineCC?.message && (

@@ -1,40 +1,34 @@
 import Link from "next/link";
-import { fetchBikesPaginated } from "@/lib/actions/bike.action";
-// import BikeTable from "./_components/BikeTable";
+import { handleGetAllBikesAdmin } from "@/lib/actions/admin/bike.action";
+import BikeTable from "../bikes/_components/BikesTable";
 
-export default async function BikesPage({
-    searchParams,
+export default async function Page({
+    searchParams
 }: {
-    searchParams: { page?: string; size?: string; search?: string };
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-    const page = Number(searchParams.page) || 1;
-    const size = Number(searchParams.size) || 10;
-    const search = searchParams.search || '';
+    // ✅ Await searchParams first
+    const params = await searchParams;
+    
+    const page = params.page as string || '1';
+    const size = params.size as string || '10';
+    const search = params.search as string || '';
 
-    const result = await fetchBikesPaginated(page, size, search);
+    const response = await handleGetAllBikesAdmin(
+        parseInt(page),
+        parseInt(size),
+        search as string
+    );
+
+    if (!response.success) {
+        throw new Error(response.message || 'Failed to load bikes');
+    }
 
     return (
-        <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold">Bikes</h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        Manage your bike inventory
-                    </p>
-                </div>
-                <Link
-                    href="/admin/bikes/create"
-                    className="px-4 py-2 rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90"
-                >
-                    + Add Bike
-                </Link>
-            </div>
-
-            {/* <BikeTable
-                bikes={result.bikes}
-                pagination={result.pagination}
-                search={search}
-            /> */}
+        <div>
+            <Link className="text-blue-500 border border-blue-500 p-2 rounded inline-block"
+                href="/admin/bikes/create">Create Bike</Link>
+            <BikeTable bikes={response.data} pagination={response.pagination} search={search} />
         </div>
     );
 }

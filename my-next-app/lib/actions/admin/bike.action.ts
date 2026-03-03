@@ -5,11 +5,52 @@ import { cookies } from "next/headers";
 
 const BASE_URL = "http://localhost:5000";
 
-// 🔒 ADMIN ONLY - Create
+export async function handleGetAllBikesAdmin(
+    page: number = 1,
+    size: number = 10,
+    search?: string
+) {
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("auth_token")?.value; // ✅ fixed
+
+        const params = new URLSearchParams();
+        params.set("page", String(page));
+        params.set("size", String(size));
+        if (search) params.set("search", search);
+
+        const response = await fetch(`${BASE_URL}/api/bike?${params.toString()}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            return { success: false, message: data.message || "Failed to fetch bikes" };
+        }
+
+        return {
+            success: true,
+            data: data.bikes ?? [],
+            pagination: data.pagination ?? {
+                page,
+                size,
+                totalItems: 0,
+                totalPages: 0,
+            },
+        };
+    } catch (error: Error | any) {
+        return { success: false, message: error.message || "Failed to fetch bikes" };
+    }
+}
+
 export async function handleCreateBike(formData: FormData) {
     try {
-        const cookieStore = cookies();
-        const token = cookieStore.get("token")?.value;
+        const cookieStore = await cookies();
+        const token = cookieStore.get("auth_token")?.value; // ✅ fixed
 
         const response = await fetch(`${BASE_URL}/api/bike/`, {
             method: "POST",
@@ -32,11 +73,10 @@ export async function handleCreateBike(formData: FormData) {
     }
 }
 
-// 🔒 ADMIN ONLY - Update
 export async function handleUpdateBike(id: string, formData: FormData) {
     try {
-        const cookieStore = cookies();
-        const token = (await cookieStore).get("token")?.value;
+        const cookieStore = await cookies();
+        const token = cookieStore.get("auth_token")?.value; // ✅ fixed
 
         const response = await fetch(`${BASE_URL}/api/bike/${id}`, {
             method: "PUT",
@@ -60,11 +100,10 @@ export async function handleUpdateBike(id: string, formData: FormData) {
     }
 }
 
-// 🔒 ADMIN ONLY - Delete
 export async function handleDeleteBike(id: string) {
     try {
-        const cookieStore = cookies();
-        const token = (await cookieStore).get("token")?.value;
+        const cookieStore = await cookies();
+        const token = cookieStore.get("auth_token")?.value; // ✅ fixed
 
         const response = await fetch(`${BASE_URL}/api/bike/${id}`, {
             method: "DELETE",

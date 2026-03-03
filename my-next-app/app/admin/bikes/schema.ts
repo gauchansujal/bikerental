@@ -19,10 +19,8 @@ export const BikeSchema = z.object({
             "Only .jpg, .png, .webp formats are supported"
         ),
 });
+export const BikeEditSchema = BikeSchema.partial();
 
-export const BikeEditSchema = BikeSchema.partial().extend({
-    name: z.string().min(1, "Name is required"),
-    brand: z.string().min(1, "Brand is required"),
-});
 
 export type BikeData = z.infer<typeof BikeSchema>;
+export type BikeEditData = z.infer<typeof BikeEditSchema>;
