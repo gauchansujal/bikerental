@@ -19,6 +19,7 @@ export const CreateUserDTO = UserSchema.pick( // pick means pick ths followin sc
     password: true,
     imageUrl: true,
     role: true,
+    
 
     
   }

@@ -7,14 +7,14 @@ const userSchema: Schema = new Schema<UserType>(
   email: {type:String, required: true, unique: true},
   password:{type:String, required: true},
   username: {type:String, required: true, unique:true},
-  firstname: {type: String},
-  lastname: {type: String},
+  
   role: {
     type: String,
     enum: ['user', 'admin'],
     default: 'user',
   },
   imageUrl: {type:String,required: false},
+  // phoneNumber:{type:String, required:false},
 },
 { 
   timestamps:true, //auto createAt and updateAt

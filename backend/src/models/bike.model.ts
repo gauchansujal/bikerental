@@ -9,7 +9,7 @@ const  BikeSchema : Schema = new Schema<BikeType>({
    price: {type: String, required: true},
    engineCC: {type: Number, required:true},
    milage: {type: String, required: true}, 
-   isAvilable : {type:Boolean,default: true },
+   isAvailable : {type:Boolean,default: true },
    imageUrl: {type:String, required:false},
 });
 

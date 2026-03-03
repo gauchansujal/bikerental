@@ -6,7 +6,7 @@ export const BikeSchema = z.object({
     price: z.string().min(1000, "Price should be higeher than 1k"),
     engineCC : z.number().min(100, "higher than 100cc "),
     milage: z.string(),
-    isAvilable:z.boolean().default(true),//default true
+    isAvailable:z.boolean().default(true),//default true
     imageUrl: z.string().url().optional(), //optional image url
 
 });

@@ -17,6 +17,11 @@ export class AuthController {
       }
 
       const userData: CreateUserDTO = parsedData.data;
+
+      //attcah image if uploaded
+      if((req as any).file){
+        userData.imageUrl = `/uploads/${(req as any).file.filename}`;
+      }
       const newUser = await userService.createUser(userData);
 
       return res.status(201).json({

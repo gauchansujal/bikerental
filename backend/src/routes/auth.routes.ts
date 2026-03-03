@@ -6,7 +6,7 @@ const router = Router();
 const controller = new AuthController();
 let authController = new AuthController();
 
-router.post("/register", controller.register);
+router.post("/register", uploads.single("image"),controller.register);
 router.post("/login", controller.login);
 router.get("/whoami", authorizationMiddleware, authController.getProfile);
 router.post("/requestresetPassword", authController.sendResetPasswordEmail);
