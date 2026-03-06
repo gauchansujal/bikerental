@@ -1,31 +1,27 @@
-// app/admin/layout.tsx   (or wherever this file lives)
-"use client";   // ← very important — this layout now contains client components + context
+"use client";
 
 import Header from "./_components/Header";
 import Sidebar from "./_components/Sidebar";
-import { AuthProvider } from "@/context/Authcontext";   // check path — is it Authcontext or AuthContext?
+import { AuthProvider } from "@/context/Authcontext";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      <div className="flex w-full overflow-hidden min-h-screen bg-background text-foreground">
-        <div className="page-wrapper flex w-full">
-          {/* Sidebar – hidden on mobile/small screens */}
-          <div className="hidden xl:block">
-            <Sidebar />
-          </div>
+      <div className="flex w-full bg-white text-gray-900">
 
-          {/* Main column */}
-          <div className="flex-1 flex flex-col h-full bg-background">
-            {/* Top Header */}
-            <Header />
-
-            {/* Page content */}
-            <main className="flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:py-8">
-              {children}
-            </main>
-          </div>
+        {/* Sidebar - fixed */}
+        <div className="hidden xl:flex xl:w-64 xl:flex-col xl:fixed xl:inset-y-0 xl:z-40">
+          <Sidebar />
         </div>
+
+        {/* Main column */}
+        <div className="flex-1 xl:ml-64 flex flex-col">
+          <Header />
+          <main className="w-full px-4 sm:px-6 lg:px-8 py-6">
+            {children}
+          </main>
+        </div>
+
       </div>
     </AuthProvider>
   );

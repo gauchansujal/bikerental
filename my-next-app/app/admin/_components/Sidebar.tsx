@@ -20,7 +20,7 @@ export default function Sidebar() {
             <aside className={`
                 fixed md:static 
                 top-0 left-0 
-                h-full w-64 
+                h-full w-50
                 bg-white dark:bg-gray-900 
                 border-r border-gray-200 dark:border-gray-800 
                 z-40`}
