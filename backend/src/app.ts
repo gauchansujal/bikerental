@@ -7,9 +7,10 @@ import bodyParser from 'body-parser';
 import bikeRoutes from './routes/bike.routes';
 import dlRoutes from "./routes/dl.routes";
 import bookingRoutes from "./routes/booking.routes";
-
+import notificationRoutes from "./routes/notification.routes"; 
 import adminUserRoutes from "./routes/admin/user.admin";
 import { Admin } from 'mongodb';
+
 
 const app: Application = express();
 
@@ -31,6 +32,7 @@ app.use('/api/admin/users', adminUserRoutes);
 app.use('/api/auth', authRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use('/api/bike',bikeRoutes);
+app.use('/api/notification/',notificationRoutes)
 app.use('/api/dl', dlRoutes);
 app.use('/api/booking',bookingRoutes);
 
