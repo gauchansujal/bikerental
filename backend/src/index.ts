@@ -1,6 +1,8 @@
 import app from './app';
 import { connectDB } from './database/mongodb';
 import { PORT } from './config';
+// ✅ Connect DB in BOTH local and production
+connectDB().catch(console.error);
 
 async function startServer() {
     try {
@@ -15,9 +17,10 @@ async function startServer() {
     }
 }
 
-// ✅ Add this - Vercel needs the export
+// ✅ Only listen on port locally
 if (process.env.NODE_ENV !== 'production') {
-    startServer();
+    const { PORT } = require('./config');
+    app.listen(PORT, () => console.log(`Server running on ${PORT}`));
 }
 
 // ✅ Add this - Vercel uses this
