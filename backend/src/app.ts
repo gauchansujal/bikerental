@@ -15,7 +15,7 @@ import { Admin } from 'mongodb';
 const app: Application = express();
 
 const corsOptions = {
-    origin:[ 'http://localhost:3000', 'http://localhost:3003', 'http://localhost:3005' /*  'https://bikerental-sable.vercel.app' */ ],
+    origin:[ 'http://localhost:3000', 'http://localhost:3003', 'http://localhost:3005'  , 'https://bikerental-sable.vercel.app' ],
     optionsSuccessStatus: 200,
     credentials: true,
     httpOnly : true,
