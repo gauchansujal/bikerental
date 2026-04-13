@@ -34,7 +34,7 @@ export default function RegisterForm() {
                     throw new Error(response.message);
                 }
                 if (response.success) {
-                    router.push("/login");
+                    router.push("/auth/login");
                 } else {
                     setError('Registration failed');
                 }
