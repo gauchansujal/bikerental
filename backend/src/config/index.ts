@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
-dotenv.config();
-
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config();
+}
 export const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 5050;
-export const MONGODB_URI: string = process.env.MONGODB_URI!;
+export const MONGODB_URL: string = process.env.MONGODB_URL!;
 export const CLIENT_URL: string = process.env.CLIENT_URL || 'http://localhost:3000';
 export const EMAIL_USER: string = process.env.EMAIL_USER!;
 export const EMAIL_PASS: string = process.env.EMAIL_PASS!;
