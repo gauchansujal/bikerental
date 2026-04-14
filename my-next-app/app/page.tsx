@@ -21,13 +21,11 @@ export default function Home() {
       {/* Content on top */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-xl">
-            Welcome to My Web API Frontend
-          </h1>
-
-          <p className="text-xl md:text-2xl text-zinc-200 mb-10 drop-shadow-md">
-            This is your custom Home Page
+          <p className="text-1xl md:text-3xl lg:text-4xl font-bold text-white mb-6 drop-shadow-xl">
+            Welcome to Bike Rental Website
           </p>
+
+         
 
           <div className="mt-6 flex flex-col sm:flex-row gap-6 justify-center">
             <Link

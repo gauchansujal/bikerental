@@ -55,29 +55,29 @@ export default function Header() {
               >
                 How It Works
               </Link>
-              <Link
+              {/* <Link
                 href="/pricing"
                 className="text-black-700 hover:text-red-600 font-medium transition-colors"
               >
                 Pricing
-              </Link>
+              </Link> */}
             </nav>
 
             {/* Right side */}
             <div className="flex items-center gap-4 md:gap-6">
               <button
                 onClick={handleLogout}
-                className="h-9 px-3 inline-flex items-center justify-center rounded-md border border-red-300 text-sm font-medium hover:bg-red-600 hover:text-white transition-colors"
+                className="bg-red-600 hover:bg-white text-black px-5 py-2.5 rounded-lg font-medium transition-colors"
               >
                 Logout
               </button>
 
-              <Link
+              {/* <Link
                 href="/get-started"
                 className="bg-red-600 hover:bg-red-700 text-black px-5 py-2.5 rounded-lg font-medium transition-colors shadow-sm whitespace-nowrap"
               >
                 Get Started
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
